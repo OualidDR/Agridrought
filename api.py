@@ -1,4 +1,5 @@
 import requests
+import json
 
 
 url ="https://archive-api.open-meteo.com/v1/archive"
@@ -27,13 +28,11 @@ for region in regions:
     data["region_name"] = region["name"]
     all_result.append(data)
 
-# for result in all_result:
-#     print(result['region_name'], result["latitude"], result["longitude"])
-
-# print(all_result[0])
 
 rains = {}
 for result in all_result :
     rains[result['region_name']] = sum(result['daily']['rain_sum'])
 
 print(rains)
+with open ("rainfall_total.json", "w") as f :
+    json.dump(rains, f, indent= 2)

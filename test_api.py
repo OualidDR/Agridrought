@@ -1,7 +1,8 @@
-from api import rains_count, fetch_all_regions_weather
+from transform import rains_count
+from fetch import fetch_all_regions_weather
 from unittest.mock import patch, MagicMock
 
-@patch("api.requests.get")
+@patch("fetch.requests.get")
 
 def test_fetch_all_regions_weather(mock_get) :
     mock_response = MagicMock()

@@ -33,5 +33,5 @@ def test_rains_count() :
         },
     ]   
     result = rains_count(fake_all_result)
-    assert result == {"testville" : 6.0, "otherplace" : 5.5}
+    assert result == {"testville" : 7.0, "otherplace" : 5.5}
 

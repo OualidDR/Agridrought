@@ -1,4 +1,10 @@
 terraform {
+    backend "azurerm" {
+    resource_group_name  = "rg-tfstate"
+    storage_account_name = "sttfstateagridrought"
+    container_name       = "tfstate"
+    key                  = "agridrought.tfstate"
+  }
     required_providers {
         azurerm = {
             source = "hashicorp/azurerm"
@@ -17,13 +23,13 @@ resource "azurerm_resource_group" "rg-agridrought" {
 }
 
 resource "azurerm_storage_account" "storage" {
-  name                = "stagridrought"
-  resource_group_name = azurerm_resource_group.rg-agridrought.name
-
-  location                 = azurerm_resource_group.rg-agridrought.location
-  account_tier             = "Standard"
-  account_replication_type = "LRS"
-
+  name                             = "stagridrought"
+  resource_group_name              = azurerm_resource_group.rg-agridrought.name
+  location                         = azurerm_resource_group.rg-agridrought.location
+  account_tier                     = "Standard"
+  account_replication_type         = "LRS"
+  allow_nested_items_to_be_public  = false
+  cross_tenant_replication_enabled = false
 }
 
 resource "azurerm_storage_container" "bronze" {

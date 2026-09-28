@@ -28,7 +28,7 @@ jobs :
     steps:
       - uses: azure/login@v2
         with:
-          client-id: ${{ secrets.AZURE_CLIENT_ID }}
-          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
-          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          client-id:  0fef2e9a-347f-44ff-b353-b4d2973d440c 
+          tenant-id:  a99950fd-2582-4f30-916e-fc061b7a258b
+          subscription-id:  5b66b750-3a71-47ed-8a9a-2fd428157e3c 
       - run: az account show

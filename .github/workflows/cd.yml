@@ -1,6 +1,6 @@
-  name : cd
-  
-  terraform-apply:
+name : cd 
+
+terraform-apply:
     runs-on: ubuntu-latest
     needs: test
     permissions:

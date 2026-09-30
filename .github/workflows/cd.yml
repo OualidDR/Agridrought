@@ -1,12 +1,5 @@
-name : cd 
-
-on:
-  push : 
-    branches : [main]
-
-terraform-apply:
+  terraform-apply:
     runs-on: ubuntu-latest
-    needs: test
     permissions:
       id-token: write
       contents: read
@@ -15,15 +8,11 @@ terraform-apply:
         working-directory: infra
     steps:
       - uses: actions/checkout@v4
-
       - uses: azure/login@v2
         with:
-          client-id:  0fef2e9a-347f-44ff-b353-b4d2973d440c 
-          tenant-id:  a99950fd-2582-4f30-916e-fc061b7a258b
-          subscription-id:  5b66b750-3a71-47ed-8a9a-2fd428157e3c 
-
+          client-id: 0fef2e9a-347f-44ff-b353-b4d2973d440c
+          tenant-id: a99950fd-2582-4f30-916e-fc061b7a258b
+          subscription-id: 5b66b750-3a71-47ed-8a9a-2fd428157e3c
       - uses: hashicorp/setup-terraform@v3
-
       - run: terraform init
-
       - run: terraform apply -auto-approve

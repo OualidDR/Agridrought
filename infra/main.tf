@@ -38,3 +38,5 @@ resource "azurerm_storage_container" "bronze" {
   container_access_type = "private"
 }
 
+
+

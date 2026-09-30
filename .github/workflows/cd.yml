@@ -1,5 +1,9 @@
 name : cd 
 
+on:
+  push : 
+    branches : [main]
+
 terraform-apply:
     runs-on: ubuntu-latest
     needs: test

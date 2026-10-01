@@ -22,6 +22,16 @@ def load_to_azure_blob(file_name, blob_name) :
         blob_client.upload_blob(data, overwrite=True)
 
 
+def download_from_blob(blob_name, file_name):
+    connection_string = os.environ["AZURE_STORAGE_CONNECTION_STRING"]
+    blob_service = BlobServiceClient.from_connection_string(connection_string)
+
+    container_client = blob_service.get_container_client("bronze")
+    blob_client = container_client.get_blob_client(blob_name)
+
+    with open(file_name, "wb") as data:
+        download_stream = blob_client.download_blob()
+        data.write(download_stream.readall())
 
 
 

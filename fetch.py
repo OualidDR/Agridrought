@@ -17,7 +17,7 @@ def fetch_all_regions_weather (regions) :
             'timezone': 'auto',
             "daily": "rain_sum"
         }
-        response = requests.get(url, params=params)
+        response = requests.get(url, params=params, timeout=10)
     #  store the result in a list 
         data = response.json()
         data["region_name"] = region["name"]
@@ -34,7 +34,7 @@ def fetch_region_weather_for_year(region, start_date, end_date):
         "timezone": "auto",
         "daily": "rain_sum",
     }
-    response = requests.get(url, params=params)
+    response = requests.get(url, params=params, timeout=10)
     data = response.json()
     data["region_name"] = region["name"]
     return data

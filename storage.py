@@ -6,9 +6,9 @@ from azure.storage.blob import BlobServiceClient
 
 load_dotenv()
 
-def save_rains_json(rains) :
-    with open ("rainfall_total.json", "w") as f :
-        json.dump(rains, f, indent= 2)
+def save_rains_json(data, filename="rainfall_total.json") :
+    with open (filename, "w") as f :
+        json.dump(data, f, indent= 2)
 
 def load_to_azure_blob(file_name, blob_name) :
     

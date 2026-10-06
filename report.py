@@ -9,13 +9,13 @@ def load_rains(filename):
         return json.load(f)
 
 def rank_by_dryness(rains):
-    # return regions sorted from driest (lowest rainfall) to wettest
-    return sorted(rains.items(), key=lambda item: item[1])
+    return sorted(rains.items(), key=lambda item: item[1]["drought_risk_pct"], reverse=True)
 
 if __name__ == "__main__":
     from storage import download_from_blob
-    download_from_blob("rainfall_total.json", "rainfall_total.json")
-    rains = load_rains("rainfall_total.json")
+    download_from_blob("drought_index.json", "drought_index.json")
+    rains = load_rains("drought_index.json")
     ranked = rank_by_dryness(rains)
-    for region, total in ranked:
-        print(f"{region}: {round(total, 2)} mm")
+    for region, info in ranked:
+        print(f"{region}: {info['drought_risk_pct']}% below normal "
+      f"({round(info['current_mm'], 2)}mm vs {info['historical_avg_mm']}mm avg)")

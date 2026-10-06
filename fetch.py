@@ -41,10 +41,13 @@ def fetch_region_weather_for_year(region, start_date, end_date):
 
 
 def fetch_historical_baseline(region, month_day_start, month_day_end, years):
-    """Fetch the same date window across multiple past years, return list of results."""
     results = []
     for year in years:
         start = f"{year}-{month_day_start}"
         end = f"{year}-{month_day_end}"
-        results.append(fetch_region_weather_for_year(region, start, end))
+        try:
+            results.append(fetch_region_weather_for_year(region, start, end))
+        except requests.exceptions.RequestException:
+            print(f"Skipping {region['name']} {year}: request failed")
+        time.sleep(0.5)
     return results

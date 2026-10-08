@@ -24,20 +24,19 @@ def fetch_all_regions_weather (regions) :
         all_result.append(data)
      return all_result
 
-def fetch_region_weather_for_year(region, start_date, end_date):
-    """Reusable core: fetch one region's daily rain_sum for any date range."""
-    params = {
-        "latitude": region["latitude"],
-        "longitude": region["longitude"],
-        "start_date": start_date,
-        "end_date": end_date,
-        "timezone": "auto",
-        "daily": "rain_sum",
-    }
-    response = requests.get(url, params=params, timeout=10)
-    data = response.json()
-    data["region_name"] = region["name"]
-    return data
+def fetch_region_weather_for_year(region, start_date, end_date, retries=3):
+    params = {...}  # unchanged
+    for attempt in range(retries):
+        try:
+            response = requests.get(url, params=params, timeout=30)
+            response.raise_for_status()
+            data = response.json()
+            data["region_name"] = region["name"]
+            return data
+        except requests.exceptions.RequestException:
+            if attempt == retries - 1:
+                raise
+            time.sleep(2 ** attempt)  # wait 1s, 2s, then give up
 
 
 def fetch_historical_baseline(region, month_day_start, month_day_end, years):

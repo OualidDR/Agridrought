@@ -38,5 +38,11 @@ resource "azurerm_storage_container" "bronze" {
   container_access_type = "private"
 }
 
+resource "azurerm_storage_container" "gold" {
+  name                  = "gold"
+  storage_account_name  = azurerm_storage_account.storage.name
+  container_access_type = "private"
+}
+
 
 

@@ -5,8 +5,9 @@ def rains_count(all_result) :
     return rains
 
 def average_rainfall(results):
-    """Given multiple years' results for one region, return the average total rainfall."""
     totals = [sum(r["daily"]["rain_sum"]) for r in results]
+    if not totals:
+        raise ValueError("No baseline data available, cannot compute average")
     return sum(totals) / len(totals)
 
 

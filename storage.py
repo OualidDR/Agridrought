@@ -34,6 +34,15 @@ def download_from_blob(blob_name, file_name):
         data.write(download_stream.readall())
 
 
+def get_blob_client(container, blob_name):
+    connection_string = os.environ["AZURE_STORAGE_CONNECTION_STRING"]
+    service = BlobServiceClient.from_connection_string(connection_string)
+    return service.get_container_client(container).get_blob_client(blob_name)
 
+def upload_json(container, blob_name, obj):
+    get_blob_client(container, blob_name).upload_blob(json.dumps(obj, indent=2), overwrite=True)
+
+def download_json(container, blob_name):
+    return json.loads(get_blob_client(container, blob_name).download_blob().readall())
 
 

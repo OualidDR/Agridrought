@@ -14,5 +14,7 @@ if __name__ == "__main__":
     scores = download_json("gold", f"drought_index_{today}.json")
     ranked = rank_by_dryness(scores)
     for region, info in ranked:
-        print(f"{region}: {info['drought_risk_pct']}% below normal "
-              f"({info['current_mm']}mm vs {info['historical_avg_mm']}mm avg)")
+      pct = info["drought_risk_pct"]
+      label = f"{pct}% below normal" if pct >= 0 else f"{abs(pct)}% above normal"
+      print(f"{region}: {label} ({info['current_mm']}mm vs {info['historical_avg_mm']}mm avg)")
+    

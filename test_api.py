@@ -1,6 +1,13 @@
 from transform import rains_count
 from fetch import fetch_all_regions_weather
 from unittest.mock import patch, MagicMock
+from datetime import date 
+from transform import baseline_average
+
+fake_baseline = {
+    "2024": {"time": ["2024-10-01", "2024-10-02", "2024-10-03"], "rain_sum": [1.0, 2.0, 3.0]},
+    "2025": {"time": ["2025-10-01", "2025-10-02", "2025-10-03"], "rain_sum": [0.0, 0.0, 4.0]},
+}
 
 @patch("fetch.requests.get")
 

@@ -1,28 +1,18 @@
-import requests
 import time
+from datetime import date, timedelta
 
-url ="https://archive-api.open-meteo.com/v1/archive"
+import requests
 
-# i make a list of dics
+url = "https://archive-api.open-meteo.com/v1/archive"
 
-    
-def fetch_all_regions_weather (regions) :
-     all_result = []
-     for region in regions:
-        params = {
-            "latitude": region['latitude'],
-            "longitude": region['longitude'],
-            "start_date": "2026-09-08",
-            "end_date": "2026-09-22",
-            'timezone': 'auto',
-            "daily": "rain_sum"
-        }
-        response = requests.get(url, params=params, timeout=10)
-    #  store the result in a list 
-        data = response.json()
-        data["region_name"] = region["name"]
-        all_result.append(data)
-     return all_result
+LAG_DAYS = 5  # the archive API lags a few days behind real time
+
+
+def current_window():
+    end = date.today() - timedelta(days=LAG_DAYS)
+    start = end - timedelta(days=13)
+    return start.isoformat(), end.isoformat()
+
 
 def fetch_region_weather_for_year(region, start_date, end_date, retries=3):
     params = {
@@ -46,11 +36,16 @@ def fetch_region_weather_for_year(region, start_date, end_date, retries=3):
             time.sleep(2 ** attempt)
 
 
-def fetch_historical_baseline(region, month_day_start, month_day_end, years):
-    results = []
-    for year in years:
-        start = f"{year}-{month_day_start}"
-        end = f"{year}-{month_day_end}"
-        results.append(fetch_region_weather_for_year(region, start, end))
+def fetch_all_regions_weather(regions):
+    start, end = current_window()
+    return [fetch_region_weather_for_year(r, start, end) for r in regions]
+
+
+def fetch_full_years(region, years):
+    """Full daily series per year, e.g. {"2021": {"time": [...], "rain_sum": [...]}, ...}"""
+    result = {}
+    for y in years:
+        data = fetch_region_weather_for_year(region, f"{y}-01-01", f"{y}-12-31")
+        result[str(y)] = data["daily"]
         time.sleep(0.5)
-    return results
+    return result

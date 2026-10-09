@@ -10,4 +10,5 @@ __pycache__/
 # Terraform
 infra/.terraform/
 *.tfstate
-*.tfstate.*
+*.tfstate.*drought_index.json
+rainfall_total.json
